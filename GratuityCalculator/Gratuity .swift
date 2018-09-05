@@ -31,7 +31,4 @@ class Gratuity: NSObject {
     }
 }
 
-let newGrat = Gratuity(tipPercent: 0.15, billAmount: 100)
 
-print(newGrat.tipAmount)
-print(newGrat.totalBillAmount)

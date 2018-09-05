@@ -29,6 +29,17 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        //Allow user to dismiss the keyboard by tapping outside of it
+        
+        //Create an object that recognizes taps
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        
+        //Needed so we don't interfere with outher tap controls
+        tap.cancelsTouchesInView = false
+        
+        //Adds the tap object to the current view
+        self.view.addGestureRecognizer(tap)
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,12 +49,20 @@ class ViewController: UIViewController {
 
     // DEFINE IBACTIONS
     //Any just means (for example) it could be select person by drop down or enter name. Different methods of control
-    @IBAction func txtBillAmountUpdated(_ sender: Any) {
+    /*@IBAction func txtBillAmountUpdated(_ sender: Any) {
         print("Bill amount updated")
     }
+    */
     
-    @IBAction func slideTipPercentUpdated(_ sender: Any) {
+    //sender is the object of the class UITextView
+    @IBAction func txtBillAmountUpdated(_ sender: UITextView) {
+        print("Bill amount updated")
+        //sender is object text is attribute of bill amount input field
+        print("The bill amount is \(sender.text)")
+    }
+    @IBAction func slideTipPercentUpdated(_ sender: UISlider) {
         print("Tip percent updated")
+        print("The tip percent is \(sender.value)")
     }
 
 }
