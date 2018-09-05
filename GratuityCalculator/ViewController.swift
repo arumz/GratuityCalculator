@@ -18,6 +18,10 @@ class ViewController: UIViewController {
     @IBOutlet var iblTipAmountOutput: UILabel!
     @IBOutlet var iblTotalAmountOutput: UILabel!
     
+    //DECLARE ATTRIBUTES
+    //use intelisense to auto populate with NSDecimal and tab over to replace NSDecimal with values
+    var gratuityCalc = Gratuity(tipPercent: 0.15, billAmount: 0.00)
+    
     
     //LIFECYCLE FUNCTIONS
     
