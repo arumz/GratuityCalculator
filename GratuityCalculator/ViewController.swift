@@ -54,15 +54,70 @@ class ViewController: UIViewController {
     }
     */
     
+    //INTERNAL METHODS
+    
+    func updateTipandTotal(){
+        //display the updated values for tip amount and total amount
+        var tipAmount = gratuityCalc.tipAmount
+        var totalBillAmount = gratuityCalc.totalBillAmount
+        
+        let currencyFormatter = NumberFormatter()
+        currencyFormatter.numberStyle = .currency
+        
+        iblTipAmountOutput.text = currencyFormatter.string(from: tipAmount)
+        iblTotalAmountOutput.text = currencyFormatter.string(from: totalBillAmount)
+        
+    }
+    
+    
+    
+    
+    
+        
+    
+
+
+
     //sender is the object of the class UITextView
     @IBAction func txtBillAmountUpdated(_ sender: UITextView) {
-        print("Bill amount updated")
-        //sender is object text is attribute of bill amount input field
+       
+        //collect value of bill amount input field
+        gratuityCalc.billAmount = NSDecimalNumber(string: sender.text)
+        //update gratuity object with bill amount
+        gratuityCalc.billAmount = NSDecimalNumber(string: sender.text)
+        //displaytip A, total A
+        updateTipandTotal()
+        
         print("The bill amount is \(sender.text)")
     }
+
     @IBAction func slideTipPercentUpdated(_ sender: UISlider) {
+        //read values of the slider by setting local variable
+        let tipPercent: NSDecimalNumber = NSDecimalNumber(value: sender.value )
+       // let tipPercentInstance = ViewController()
+        
+        //call percentFormat method to format the tip percentage and store to formatted local variable
+        let tipPercentageFormatter = NumberFormatter()
+        tipPercentageFormatter.numberStyle = .percent
+        tipPercentageFormatter.locale = Locale.current
+        tipPercentageFormatter.multiplier = 1
+        tipPercentageFormatter.maximumFractionDigits = 2
+        
+        //returns a string optional
+        //tipPercentageFormatter.string(from:percent)
+        //print("\(tipPercent)")
+        
+        //change tip % label
+        iblTipPercentOutput.text = tipPercentageFormatter.string(from: tipPercent)
         print("Tip percent updated")
-        print("The tip percent is \(sender.value)")
+        print("The tip percent is \(tipPercent)%")
+        
+        //update tip % in Gratuity object
+        gratuityCalc.tipPercent = NSDecimalNumber(value: sender.value) //.rounded()
+        
+        //display tip A, total A
+        updateTipandTotal()
+        
     }
 
 }
