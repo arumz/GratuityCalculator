@@ -66,6 +66,8 @@ class ViewController: UIViewController {
         currencyFormatter.locale = Locale.current
         currencyFormatter.multiplier = 1
         currencyFormatter.maximumFractionDigits = 2
+        print("tip amount is \(tipAmount)")
+        print("total amount is \(totalBillAmount)")
         iblTipAmountOutput.text = currencyFormatter.string(from: tipAmount)
         iblTotalAmountOutput.text = currencyFormatter.string(from: totalBillAmount)
         
@@ -97,7 +99,7 @@ class ViewController: UIViewController {
 
     @IBAction func slideTipPercentUpdated(_ sender: UISlider) {
         //read values of the slider by setting local variable
-        let tipPercent: NSDecimalNumber = NSDecimalNumber(value: sender.value)
+        gratuityCalc.tipPercent = NSDecimalNumber(value: sender.value)
         
         //call percentFormat method to format the tip percentage and store to formatted local variable
         let tipPercentageFormatter = NumberFormatter()
@@ -105,17 +107,22 @@ class ViewController: UIViewController {
         tipPercentageFormatter.locale = Locale.current
         tipPercentageFormatter.multiplier = 100
         tipPercentageFormatter.maximumFractionDigits = 2
-        tipPercentageFormatter.roundingMode = .up
+        tipPercentageFormatter.roundingMode = .halfUp
         tipPercentageFormatter.maximumFractionDigits = 0
         
         
         //change tip % label
-        iblTipPercentOutput.text = tipPercentageFormatter.string(from: tipPercent)
+        iblTipPercentOutput.text = tipPercentageFormatter.string(from: gratuityCalc.tipPercent)
         print("Tip percent updated")
-        print("The tip percent is \(tipPercent)%")
+        print("The tip percent is \(gratuityCalc.tipPercent)%")
         
         //update tip % in Gratuity object
-        gratuityCalc.tipPercent = NSDecimalNumber(value: sender.value) //.rounded()
+        let sliderValue = NSDecimalNumber(value: sender.value)
+        let roundingBehavior = NSDecimalNumberHandler(roundingMode: .plain, scale: 2, raiseOnExactness: false, raiseOnOverflow: false, raiseOnUnderflow: false, raiseOnDivideByZero: false)
+        gratuityCalc.tipPercent = sliderValue.rounding(accordingToBehavior: roundingBehavior)
+        // gratuityCalc.tipPercent = NSDecimalNumber(value: sender.value) //.rounded()
+        
+        print("Slider value is.. \(gratuityCalc.tipPercent)")
         
         //display tip A, total A
         updateTipandTotal()
